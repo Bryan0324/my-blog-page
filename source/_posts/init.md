@@ -1,7 +1,12 @@
 ---
 title: Hello World
-description: 的第一篇部落格
+description: 我的第一篇部落格
+tags:
+  - Hexo
+  - 教程
+  - yun
 ---
 # 我的第一篇部落格
-<!-- more -->
+部落格參考連結  
+https://yun.yunyoujun.cn/guide/page.html  
 (沒東ㄒ)
