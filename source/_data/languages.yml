@@ -1,0 +1,96 @@
+zh-TW:
+  title:
+    archive: 歸檔
+    category: 分類
+    tag: 標籤
+    album: 相冊
+
+  menu:
+    home: 首頁
+    archives: 歸檔
+    categories: 分類
+    tags: 標籤
+    about: 關於
+    search: 搜尋
+
+  sidebar:
+    overview: 網站概覽
+    toc: 文章目錄
+
+  post:
+    decrypt: 解密
+    posted: 發表於
+    edited: 更新於
+    created: 建立時間
+    modified: 修改時間
+    edit: 編輯
+    more: 更多
+    untitled: 未命名
+    toc_empty: 此文章未包含目錄
+    views: 閱讀次數
+    comments_count: 評論數
+    related_posts: 相關文章
+    view_link: 檢視連結
+    read_more: 閱讀更多
+    copyright:
+      author: 本文作者
+      link: 本文連結
+      license_title: 版權聲明
+      license_content: '本部落格所有文章除特別聲明外，均預設採用 %s 許可協議。'
+
+  footer:
+    powered: '由 %s 驅動'
+    theme: 主題
+    total_views: 總瀏覽量
+    total_visitors: 總訪客量
+
+  counter:
+    tag_cloud:
+      zero: 暫無標籤
+      one: 共計 1 個標籤
+      other: '共計 %d 個標籤'
+    categories:
+      zero: 暫無分類
+      one: 共計 1 個分類
+      other: '共計 %d 個分類'
+    archive_posts:
+      zero: 暫無日誌
+      one: 共計 1 篇日誌
+      other: '共計 %d 篇日誌'
+    albums:
+      zero: 暫無相冊
+      one: 共計 1 個相冊
+      other: '共計 %d 個相冊'
+    photos:
+      zero: 暫無照片
+      one: 共計 1 張照片
+      other: '共計 %d 張照片'
+
+  search:
+    placeholder: 搜尋...
+    empty: '找不到您查詢的內容: ${query}'
+    hits: '找到 ${hits} 條結果'
+    hits_time: '找到 ${hits} 條結果（用時 ${time} 毫秒）'
+
+  symbol:
+    comma: ，
+    period: 。
+    colon: ：
+
+  reward:
+    donate: 打賞
+
+  accessibility:
+    back: 返回
+
+  wordcount:
+    count: 本文字數
+    count_total: 網站總字數
+    time: 閱讀時長
+    time_total: 網站閱讀時長
+
+  time:
+    day: 天
+    hour: 小時
+    minute: 分
+    second: 秒

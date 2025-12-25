@@ -8,13 +8,12 @@ subtitle: '草貓的技術與生活筆記'
 description: ''
 keywords:
 author: Bryan0324
-language: zh_TW
+language: zh-TW
 timezone: Asia/Taipei
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://bryan0324.github.io
-root: /my-blog-page/
+url: https://bryan0324.github.io/my-blog-page
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -44,7 +43,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
+syntax_highlighter: prism.js
 highlight:
   line_number: true
   auto_detect: false
@@ -52,10 +51,10 @@ highlight:
   wrap: true
   hljs: false
 prismjs:
+  enable: true
   preprocess: true
   line_number: true
   tab_replace: ''
-
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -97,7 +96,7 @@ ignore: []
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: yun
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
