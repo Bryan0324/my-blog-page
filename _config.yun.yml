@@ -283,11 +283,11 @@ font:
 fireworks:
   enable: true
   colors:
-  # - "102, 167, 221"
-  # - "62, 131, 225"
-  # - "33, 78, 194"
-  # - "3, 28, 95"
-  # - "0, 8, 55"
+    - "102, 167, 221"
+    - "62, 131, 225"
+    - "33, 78, 194"
+    - "3, 28, 95"
+    - "0, 8, 55"
 
 # https://github.com/qrohlf/trianglify
 trianglify:
@@ -363,7 +363,7 @@ post_edit:
 # Footer Settings
 # ---------------
 footer:
-  since: 2019
+  since: 2025
 
   # Icon between year and copyright info.
   icon:
@@ -381,7 +381,7 @@ footer:
     enable: true
 
   live_time:
-    enable: false
+    enable: true
     prefix: 喵喵喵~ 已經運行了喵~
     suffix: (●'◡'●)
     start_time: '2025-12-25T00:00:00'
