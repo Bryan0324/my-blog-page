@@ -1,6 +1,7 @@
 ---
 title: Hello World
 description: 我的第一篇部落格
+date: 2023-12-25
 tags:
   - Hexo
   - 教程
