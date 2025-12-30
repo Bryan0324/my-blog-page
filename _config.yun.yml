@@ -117,7 +117,7 @@ menu:
       icon: ri:price-tag-3-line
   custom:
     title: 網站原始碼連結
-    path: https://github.com/Bryan0324/my-blog-page
+    path: https://github.com/Bryan0324/Bryan0324.github.io
     icon: ri:settings-line
 
 # archive
@@ -465,7 +465,7 @@ engine_search:
   href: 'https://www.google.com/search?q=site:'
   # href: "https://www.baidu.com/s?wd=site:"
   # href: "https://www.bing.com/search?q=site:"
-  domain: https://bryan0324.github.io/my-blog-page/
+  domain: https://bryan0324.github.io
 
 # Dependencies https://github.com/next-theme/hexo-generator-searchdb
 # Make sure you have installed hexo-generator-searchdb plugin. ( npm install hexo-generator-searchdb --save )
@@ -654,7 +654,7 @@ livere:
 # https://github.com/utterance/utterances
 utterances:
   enable: true
-  repo: Bryan0324/my-blog-page
+  repo: Bryan0324/Bryan0324.github.io
   issue-term: pathname
   # label: comment
   theme: github-dark
