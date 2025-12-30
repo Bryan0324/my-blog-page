@@ -5,6 +5,10 @@ language: zh-TW
 # mode: light | dark | auto | time
 mode: dark
 
+# Toggle button for switching theme mode in sidebar
+mode_toggle:
+  enable: true
+
 # Theme color for customize
 # Notice: color value must in double quotes: "#000000"
 colors:
@@ -657,7 +661,7 @@ utterances:
   repo: Bryan0324/Bryan0324.github.io
   issue-term: pathname
   # label: comment
-  theme: github-dark
+  theme: preferred-color-scheme
 
 # https://github.com/laymonage/giscus
 giscus:

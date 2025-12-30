@@ -66,7 +66,8 @@ aside.sidebar
           a.links-item.hty-icon-button(href=url_for(link.url), title=link.name, style='color:' + link.color)
             +icon(link.icon)
 
-    if theme.mode === 'auto' || theme.mode === "time"
+    - var showModeToggle = theme.mode_toggle === undefined || theme.mode_toggle.enable !== false
+    if showModeToggle
       br
       a#toggle-mode-btn.links-item.hty-icon-button(href='javascript:;' title="Mode" style='color: #f1cb64')
         +icon('ri:contrast-2-line')
