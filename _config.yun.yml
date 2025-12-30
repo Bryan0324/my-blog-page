@@ -29,6 +29,7 @@ colors:
     text: '#8B4513'
     link: '#FF8E53'
     selection_bg: '#FFB5E8'
+    banner: "#FF6B35"
 
 # Favicon
 # ---------------
@@ -670,7 +671,7 @@ utterances:
   repo: Bryan0324/Bryan0324.github.io
   issue-term: pathname
   # label: comment
-  theme: preferred-color-scheme
+  theme: auto
 
 # https://github.com/laymonage/giscus
 giscus:

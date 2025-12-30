@@ -98,12 +98,10 @@ class ModeHandler {
   toggle() {
     const current = this.modes[this.currentMode];
     const nextMode = current.next;
-    
     if (nextMode && this.modes[nextMode]) {
       this.applyMode(nextMode);
       return nextMode;
     }
-    
     // Fallback: cycle to first mode
     const firstMode = Object.keys(this.modes)[0];
     this.applyMode(firstMode);

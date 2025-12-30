@@ -2,18 +2,11 @@ style.
   .utterances {
     max-width: 100%;
   }
-
-- var utterancesTheme = 'github-light'
-- if (theme.mode === 'dark')
--   utterancesTheme = 'github-dark'
-- else if (theme.mode === 'sunset')
--   utterancesTheme = 'github-light'
-
 script(src="https://utteranc.es/client.js"
   repo=theme.utterances.repo
   issue-term=theme.utterances['issue-term']
   label=theme.utterances.label
-  theme=utterancesTheme
+  theme=theme.utterances.theme
   crossorigin="anonymous"
   async)
 
@@ -28,13 +21,9 @@ script.
 
       const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
       const mode = (window.CONFIG && window.CONFIG.mode) || 'light';
-      const hasDarkClass = document.documentElement.classList.contains('dark');
-      const hasSunsetClass = document.documentElement.classList.contains('sunset');
-      
-      // Determine if dark theme should be used
-      const isDark = hasDarkClass
+      const isDark = document.documentElement.classList.contains('dark')
         || mode === 'dark'
-        || ((mode === 'auto' || mode === 'time') && prefersDark && !hasSunsetClass);
+        || ((mode === 'auto' || mode === 'time') && prefersDark);
 
       const theme = isDark ? 'github-dark' : 'github-light';
 

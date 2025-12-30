@@ -16,7 +16,7 @@ function initTheme() {
       new window.darken({
         container: "html",
         class: "dark",
-        toggle: "#toggle-mode-btn"
+        // toggle: "#toggle-mode-btn"
       });
     },
     window.darken

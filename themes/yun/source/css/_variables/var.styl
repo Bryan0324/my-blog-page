@@ -58,8 +58,8 @@ html.sunset {
   // yun
   --yun-bg-image: url(hexo-config('bg_image.sunset'));
   // banner
-  --banner-line-color: #FF6B35;
-  --banner-char-color: #FF6B35;
+  --banner-line-color: convert(hexo-config('colors.sunset.banner')) || #FF6B35;
+  --banner-char-color: convert(hexo-config('colors.sunset.banner')) || #FF6B35;
   --banner-char-bg-color: rgba(#FFF5E6, 0.3);
   --banner-char-hover-color: #FF8E53;
   // post-card

@@ -27,6 +27,7 @@ colors:
     text: "#8B4513"
     link: "#FF8E53"
     selection_bg: "#FFB5E8"
+    banner: "#FF6B35"
 
 # Favicon
 # ---------------
@@ -358,6 +359,7 @@ bg_image:
   enable: true
   url: https://cdn.yunyoujun.cn/img/bg/stars-timing-0-blur-30px.jpg # recomend image related to your mode
   dark: https://cdn.yunyoujun.cn/img/bg/galaxy.jpg
+  sunset: https://img.freepik.com/free-photo/sea-landscape-with-digital-art-style_23-2151158336.jpg
   # blur: 30px
   opacity: 1
 
