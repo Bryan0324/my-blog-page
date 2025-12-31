@@ -27,6 +27,15 @@ html(lang=config.language, class=theme.mode === 'dark' ? 'dark' : (theme.mode ==
     script.
       (function() {
         const hour = new Date().getHours()
+        const saved = localStorage.getItem('darken-mode')
+        
+        // If user has manually set a mode, respect it
+        if (saved && saved !== 'auto') {
+          if (saved === 'dark' || saved === 'sunset') {
+            document.documentElement.classList.add(saved)
+          }
+          return
+        }
         
         // Handle time mode with sunset (17:00-20:00 sunset, 20:00-07:00 dark, 07:00-17:00 light)
         if (CONFIG.mode === 'time') {

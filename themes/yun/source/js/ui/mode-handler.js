@@ -46,20 +46,20 @@ class ModeHandler {
   getCurrentMode() {
     const html = document.documentElement;
     
-    // Check DOM classes
+    // Check localStorage first (user preference takes priority)
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && this.modes[saved]) {
+      return saved;
+    }
+    
+    // Then check DOM classes (for time/auto mode initial detection)
     for (const [name, config] of Object.entries(this.modes)) {
       if (config.class && html.classList.contains(config.class)) {
         return name;
       }
     }
     
-    // Check localStorage
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && this.modes[saved]) {
-      return saved;
-    }
-    
-    // Default to light
+    // Default to light (when no class and no localStorage)
     return 'light';
   }
 
@@ -116,6 +116,29 @@ class ModeHandler {
     this.applyMode(this.currentMode);
     
     // Set up toggle button
+    this.setupToggleButton();
+  }
+
+  /**
+   * Reinitialize for pjax (when page content changes)
+   * Re-applies the saved mode without reloading from DOM
+   */
+  reinit() {
+    // Get the saved mode preference
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const modeToApply = (saved && this.modes[saved]) ? saved : this.currentMode;
+    
+    // Apply saved mode
+    this.applyMode(modeToApply);
+    
+    // Re-setup toggle button in case DOM changed
+    this.setupToggleButton();
+  }
+
+  /**
+   * Setup toggle button click handler
+   */
+  setupToggleButton() {
     const toggleBtn = document.getElementById('toggle-mode-btn');
     if (toggleBtn) {
       // Remove existing listeners by cloning
@@ -157,10 +180,24 @@ if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', () => {
       window.modeHandler = new ModeHandler();
       window.modeHandler.init();
+      
+      // Re-apply mode when pjax changes page
+      if (window.Pjax) {
+        document.addEventListener('pjax:complete', () => {
+          window.modeHandler.reinit();
+        });
+      }
     });
   } else {
     window.modeHandler = new ModeHandler();
     window.modeHandler.init();
+    
+    // Re-apply mode when pjax changes page
+    if (window.Pjax) {
+      document.addEventListener('pjax:complete', () => {
+        window.modeHandler.reinit();
+      });
+    }
   }
 }
 
