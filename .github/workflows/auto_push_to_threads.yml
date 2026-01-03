@@ -1,0 +1,147 @@
+name: Auto Push to Threads
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          # Examples: 20, 18.19, >=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node
+          # Ref: https://github.com/actions/setup-node#supported-version-syntax
+          node-version: "20"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          python -m pip install --upgrade pip
+          pip uninstall httpx -y
+          pip install threads-py \
+          -i https://test.pypi.org/simple \
+          --extra-index-url https://pypi.org/simple
+          pip install pandas
+          npm install
+          npm run build
+      # Use Actions Secrets directly; do not write secret.json in runner
+      - name: Determine commit message and changed files
+        id: vars
+        run: |
+          echo "GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH"
+          echo "=== event payload ==="
+          jq . "$GITHUB_EVENT_PATH" || cat "$GITHUB_EVENT_PATH"
+
+          # commit message fallback to git log
+          COMMIT_MSG=$(jq -r '.head_commit.message // empty' "$GITHUB_EVENT_PATH")
+          if [ -z "$COMMIT_MSG" ]; then
+            COMMIT_MSG=$(git log -1 --pretty=%B || echo "")
+          fi
+
+          # get added files from the current commit (one-per-line), convert to space-separated
+          ADDED=$(git diff-tree --no-commit-id --diff-filter=A --name-only -r HEAD | tr '\n' ' ')
+          echo "DEBUG: Added files (one-per-line):"
+          git diff-tree --no-commit-id --diff-filter=A --name-only -r HEAD || true
+
+          # get modified files from the current commit (one-per-line), convert to space-separated
+          MODIFIED=$(git diff-tree --no-commit-id --diff-filter=M --name-only -r HEAD | tr '\n' ' ')
+          echo "DEBUG: Modified files (one-per-line):"
+          git diff-tree --no-commit-id --diff-filter=M --name-only -r HEAD || true
+
+          echo "ADDED raw (space-separated):"
+          printf '%s\n' "$ADDED"
+          echo "MODIFIED raw (space-separated):"
+          printf '%s\n' "$MODIFIED"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "git HEAD:"
+          git rev-parse --verify HEAD || true
+          echo "git status (porcelain):"
+          git status --porcelain || true
+          echo "commit_message<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "added_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$ADDED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "modified_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$MODIFIED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+      - name: Map source files to public paths
+        id: map_files
+        run: |
+          ADDED_FILES="${{ steps.vars.outputs.added_files }}"
+          MODIFIED_FILES="${{ steps.vars.outputs.modified_files }}"
+          
+          # Function to map source file to public path
+          map_to_public() {
+            local file="$1"
+            # Extract filename without extension (e.g., 0-init.md -> 0-init)
+            local filename=$(basename "$file" .md)
+            # Search for matching directory in public folder
+            local public_path=$(find ./public -type d -name "$filename" 2>/dev/null | head -1)
+            echo "$public_path"
+          }
+          
+          # Map added files
+          ADDED_PUBLIC=""
+          for file in $ADDED_FILES; do
+            if [[ $file == source/_posts/* ]]; then
+              public_path=$(map_to_public "$file")
+              if [ -n "$public_path" ]; then
+                ADDED_PUBLIC="$ADDED_PUBLIC $public_path"
+              fi
+            fi
+          done
+          
+          # Map modified files
+          MODIFIED_PUBLIC=""
+          for file in $MODIFIED_FILES; do
+            if [[ $file == source/_posts/* ]]; then
+              public_path=$(map_to_public "$file")
+              if [ -n "$public_path" ]; then
+                MODIFIED_PUBLIC="$MODIFIED_PUBLIC $public_path"
+              fi
+            fi
+          done
+          
+          echo "Mapped Added Public Paths: $ADDED_PUBLIC"
+          echo "Mapped Modified Public Paths: $MODIFIED_PUBLIC"
+          echo "added_public<<EOF" >> $GITHUB_OUTPUT
+          echo "$ADDED_PUBLIC" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "modified_public<<EOF" >> $GITHUB_OUTPUT
+          echo "$MODIFIED_PUBLIC" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Run auto push to Threads script
+        run: |
+          echo "Commit message:" "${{ steps.vars.outputs.commit_message }}"
+          echo "Added public paths:" "${{ steps.map_files.outputs.added_public }}"
+          echo "Modified public paths:" "${{ steps.map_files.outputs.modified_public }}"
+          python3 auto-post-threads.py "${{ steps.vars.outputs.commit_message }}" "${{ steps.map_files.outputs.added_public }}" "${{ steps.map_files.outputs.modified_public }}"
+        env:
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_APP_SECRET: ${{ secrets.THREADS_APP_SECRET }}
