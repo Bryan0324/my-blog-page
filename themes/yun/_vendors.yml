@@ -7,6 +7,7 @@ host: https://cdn.jsdelivr.net/npm/
 # internal
 yun_markdown_css: star-markdown-css@0.4.1/dist/yun/yun-markdown.min.css
 prism_theme_vars: prism-theme-vars/base.css
+prism_js: prismjs@1/prism.min.js
 
 # cdn for third-party library (alternative include)
 algolia_search: algoliasearch@4/dist/algoliasearch-lite.umd.js

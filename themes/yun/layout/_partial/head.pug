@@ -49,6 +49,13 @@ if theme.css !== undefined && theme.css.length > 0
 
 script(src=url_for(theme.cdn.pre + '/js/hexo-theme-yun.js'), type="module")
 
+//- Load Prism.js for syntax highlighting
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/prism.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js')
+
 if theme.js
   each item in theme.js
     script(src=url_for(theme.cdn.pre + item))

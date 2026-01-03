@@ -271,6 +271,7 @@ head:
   css:
   js:
     base:
+      - https://fastly.jsdelivr.net/npm/prismjs@1/prism.min.js
     async:
     defer:
 

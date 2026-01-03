@@ -92,6 +92,88 @@ fireworks:
 
 ---
 
+## Code Syntax Highlighting
+
+### Prism.js Integration
+**Files Modified:**
+- `layout/_partial/head.pug`
+- `source/js/hexo-theme-yun.js`
+- `_vendors.yml`
+
+**Changes:**
+- Added Prism.js core library and language-specific components to head
+- Implemented automatic syntax highlighting on page load
+- Added pjax support for re-highlighting on dynamic page changes
+- Loads language components for bash, python, yaml, and javascript
+
+**Implementation Details:**
+
+The head.pug now loads:
+```jade
+//- Load Prism.js for syntax highlighting
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/prism.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js')
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js')
+```
+
+**Hexo Config Setup:**
+The main Hexo configuration already has Prism.js enabled:
+```yaml
+syntax_highlighter: prism.js
+prismjs:
+  enable: true
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+```
+
+**Markdown Code Block Format:**
+Use standard language identifiers in markdown:
+````markdown
+```bash
+# Bash/shell script
+pip install threads-py
+```
+
+```python
+# Python code
+from threads_py import ThreadsClient
+```
+
+```yaml
+# YAML configuration
+key: value
+```
+````
+
+**Supported Languages:**
+- `bash` or `shell` - Shell scripts
+- `python` - Python code
+- `yaml` or `yml` - YAML configuration
+- `javascript` or `js` - JavaScript code
+
+To add more language support, add additional script tags in head.pug:
+```jade
+script(src='https://fastly.jsdelivr.net/npm/prismjs@1/components/prism-[language].min.js')
+```
+
+**Automatic Highlighting:**
+The hexo-theme-yun.js initializes highlighting:
+1. On page load via `DOMContentLoaded` event
+2. After pjax navigation via `pjax:complete` event
+3. Calls `window.Prism.highlightAll()` to process all code blocks
+
+**CSS Theme:**
+Syntax highlighting colors are provided by:
+- CDN: `https://fastly.jsdelivr.net/npm/prism-theme-vars/base.css`
+- Configured in `_vendors.yml` as `prism_theme_vars`
+
+Colors adapt to the current theme mode (light/dark/sunset) via CSS variables.
+
+---
+
 ## Comments Integration
 
 ### Utterances Theme Synchronization
@@ -442,14 +524,17 @@ The `mode-handler.js` loads after initial detection, allowing users to manually 
 
 - [ ] Local search works on typing
 - [ ] Search results display correctly
+- [ ] Code blocks display with proper syntax highlighting colors
+- [ ] Multiple language syntax highlighting works (bash, python, yaml, javascript)
+- [ ] Syntax highlighting persists after pjax navigation
 - [ ] Fireworks trigger on click with configured colors
 - [ ] Aurora trail follows mouse smoothly
 - [ ] Utterances comments respect theme changes
 - [ ] Theme toggle button visibility controlled by config
 - [ ] Theme switching updates utterances in real-time
-- [ ] All modes work: light, dark, auto, time
+- [ ] All modes work: light, dark, auto, time, sunset
 
 ---
 
-**Last Updated:** December 30, 2025
+**Last Updated:** January 4, 2026
 **Base Theme Version:** hexo-theme-yun v1.10.11
