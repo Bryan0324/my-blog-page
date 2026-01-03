@@ -9,6 +9,11 @@ function initTheme() {
   window.Yun.utils.insertCopyCodeBtn();
   window.Yun.utils.wrapTable();
   
+  // Highlight code blocks with Prism.js
+  if (window.Prism) {
+    window.Prism.highlightAll();
+  }
+  
   // Initialize darken.js for dark mode support
   getScript(
     window.CONFIG.vendors.darken,
@@ -25,6 +30,15 @@ function initTheme() {
 
 copyright();
 document.addEventListener("DOMContentLoaded", initTheme);
+
+// Re-highlight code blocks after pjax navigation
+if (typeof document !== 'undefined') {
+  document.addEventListener("pjax:complete", () => {
+    if (window.Prism) {
+      window.Prism.highlightAll();
+    }
+  });
+}
 
 export { utils };
 
