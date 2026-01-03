@@ -8,7 +8,7 @@ tags:
   - python
 ---
 [參考自meta官方文件](https://developers.facebook.com/docs/threads/overview)  
-[可參考上一篇教學獲取access_token和其他需要的東西](4-threads-api-teach)
+{% post_link 4-threads-api-teach '可參考上一篇教學獲取access_token和其他需要的東西' %}
 ## 第一步
 輸入
 ```bash
