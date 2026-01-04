@@ -2,6 +2,14 @@
 
 This document tracks all custom modifications made to the original hexo-theme-yun theme.
 
+## Add customizable 404 error message to configuration and layout
+**Files Modified:**
+- `themes/yun/_config.yml`
+- `themes/yun/layout/404.pug`
+**Changes:**
+- Added a new configuration section `404` in `_config.yml` to allow customization of the 404 error message.
+- Updated `404.pug` layout to display the custom message from configuration instead of a hardcoded "404" text.
+
 ## Table of Contents
 - [Search Enhancements](#search-enhancements)
 - [Visual Effects](#visual-effects)

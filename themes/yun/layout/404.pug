@@ -4,7 +4,7 @@ block content
   #page
     +page_header(page.title)
     a(href='javascript:history.back()')
-      .not-found 404
+      .not-found= theme["404"].message || ''
     style.
       .not-found {
         text-align: center;

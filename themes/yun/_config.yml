@@ -171,6 +171,9 @@ menu:
 archive:
   last_word: 没有更多的黑历史了_(:з」∠)_
 
+404:
+  message: 404
+
 wordcloud:
   enable: false
   height: 350
