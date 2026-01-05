@@ -1,0 +1,133 @@
+---
+title: 演算法筆記 -- tarjan algorithm 
+description: 連通性問題
+tags:
+    - 競程
+    - 演算法
+    - 圖論
+    - 樹
+categories:
+    - 競程-圖論
+---
+### 前情提要
+眾所周知 我是走競程的  
+最近要 IOIC 複習一下~~基礎~~演算法  
+
+以下 `n` 皆為節點數 `m` 皆為邊數
+
+# 引入
+**橋** 在一張聯通圖中 將該邊拿掉 會是該圖變不聯通  
+要如何求得  
+暴力做的話
+1. 可以枚舉每個邊 O(m)  
+2. 在檢查是否聯通 O(n+m)  
+
+時間複雜度 O(nm)  
+
+看起來不太好  
+這時候我們就需要 tarjan 演算法了  
+# tarjan演算法
+tarjan演算法基於DFS  
+他先是觀察對一個連通圖做DFS時會有以下幾種情況  
+1. 會被DFS走到的邊 -- 樹邊  
+2. 不會被DFS走到的邊  
+    我們將樹邊視為一棵樹 我們可以細分不會被DFS走到的邊  
+    1. 指向祖先的邊 -- 回邊  
+    2. 指向子代的邊 -- 後向邊  
+    3. 非指向祖先或子代的邊 交叉邊  
+
+(如圖)
+可以注意到無向圖只會有樹邊和回邊  
+
+## 無向圖  
+那對無向圖而言，只要確定該邊沒被回邊跨過就代表他是`橋`  
+現在問題變成如何確定沒被回邊跨過  
+
+所以我們會想要維護`經過一次回邊可抵達的最遠祖先`  
+### DFS  
+- 給每個節點一個`DFS 序`(dfn) 即該點是第幾個被遍歷到的
+    (下文以 dfn [u] 表示 節點u 的 DFS 序)  
+- 再給每個節點一個`low`代表他`經過一次回邊可抵達的最遠距離`
+    (下文以 low[u] 表示 節點u 的 low 值)  
+
+
+
+因此只要 
+那跑DFS時 假設目前在點u 遍歷u的所有邊  
+(該邊為s 另一端的節點為v)
+兩種情況  
+- 樹邊：
+    - 繼續dfs  
+    - dfs完後 因為 low[v] 僅最多經過一次回邊 因為s為數邊所以 low[u] 可以被更新成 low[v]  
+    - low[u] = min(low[u], low[v])  
+- 回邊：
+    - ***不能***繼續dfs (點v已走過)  
+    - low[u] 僅能被更新成 dfn[v] 因為若更新成 low[v] 就會經過兩次回邊 不符合定義  
+    - low[u] = min(low[u], dfn[v])  
+
+**要注意子節點不能走去父節點**(不能走回頭路)  
+就剛剛的範例而言  
+節點v 再遍歷時就不能走v -> u  
+### 什麼時候會為`橋`
+
+`dfn[u] < low[v]`  
+即 子節點 無法透過回邊走回 祖先節點  
+故 u - v 為`橋`  
+
+#### 割點
+在一張聯通圖中 將該點拿掉 會是該圖變不聯通  
+即對 u 而言 存在`dfn[u] <= low[v]`  
+即對 u 而言 存在一點 v 最遠只能回到 u  
+那把 u 拔掉 v 自然就掉隊了  
+
+!!!!!判斷割點還要小心一個地方 根節點  
+根節點`dfn` == 0 必存在 `dfn[u] <= low[v]`  
+根節點是否為割點要判斷是否有兩個或以上的樹邊連接之  
+若有 該兩個節點必無法連通 *因為無向圖沒有 `交叉邊`  
+
+## 實作(割點)
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+using ull = unsigned long long;
+
+int DFN = 0;
+
+// visited紀錄走過的點 ans紀錄該點是否為割點
+void tarjan(vector<vector<int>> &graph, vector<int> &dfn, vector<int> &low, vector<bool> &visited, vector<bool> &ans, int u, int father)
+{
+    // 初始化
+    dfn[u] = low[u] = DFN++;
+    visited[u] = true;
+    int child = 0;
+    for(auto &v : graph[u])
+    {
+        if(v == father)continue;
+        if(visited[v]) low[u] = min(low[u], dfn[v]); // 回邊
+        else 
+        {
+            child++;
+            tarjan(graph, dfn, low, visited, ans, v, u); // 向下 DFS
+            low[u] = min(low[u], low[v]); // 樹邊
+            if(father != -1 && low[v] >= dfn[u])ans[u] = true;
+        }
+    }
+    // 沒父節點 -> 根節點
+    if(father == -1)
+    {
+        if(child >= 2)ans[u] = true;
+    }
+}
+int main()
+{
+    for(auto &i : {0, 1, 2})
+    {
+        cout << i;
+    }
+}
+
+```
+
+## 後記
+以上便是 tarjan 演算法的介紹了 事實證明我是走競程的✅ 
