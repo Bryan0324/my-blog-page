@@ -7,6 +7,8 @@ tags:
     - typescript
     - web
     - request
+categories:
+  - hydro
 ---
 # hydro 套件開發隨筆記 -- 1
 參考自https://hydro.js.org/  

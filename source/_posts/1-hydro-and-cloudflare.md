@@ -7,6 +7,8 @@ tags:
   - hydro
   - 教學
   - cloudflare
+categories:
+  - hydro
 ---
 # hydro + cloudflare 食用說明
 

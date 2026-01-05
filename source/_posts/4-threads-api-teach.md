@@ -5,6 +5,8 @@ tags:
   - threads
   - 教學
   - api
+categories:
+  - social media api
 ---
 [參考自meta官方文件](https://developers.facebook.com/docs/threads/overview)  
 

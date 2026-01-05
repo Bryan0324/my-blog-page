@@ -5,6 +5,8 @@ tags:
   - 網站
   - 美化前端
   - svg
+categories:
+  - 前端設計
 ---
 ```yml
 - name: GitHub

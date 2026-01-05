@@ -8,6 +8,8 @@ tags:
   - python
   - github action
   - github page
+categories:
+  - social media api
 ---
 {% post_link 5-threads-py-teach '可參考上一篇教學學threads-py的用法' %}
 
