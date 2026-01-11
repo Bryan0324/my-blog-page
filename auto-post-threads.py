@@ -19,6 +19,7 @@ def split_text(text: str, limit=490) -> list[str]:
             else:
                 _ret.append(line)
         ret.extend(_ret)
+    ret = [item for item in ret if item.strip()]
     return ret
 
 def load_secrets() -> dict[str, str | bool | dict | None]:
