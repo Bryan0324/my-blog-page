@@ -1,0 +1,99 @@
+---
+title: 演算法筆記 -- 逆序數對 
+description: merge sort 求逆序數對
+date: 2026-01-05 12:00:00 +0800
+tags:
+    - 競程
+    - 演算法
+    - 排序
+    - 分治
+    - 線性對數時間(n log n)
+categories:
+    - 競程-分治
+---
+
+今天複習了一些經典演算法 練習表達寫一下筆記
+
+# 逆序數對
+在一個序列A中 若存在 $$i < j$$ 符合 $$A_i$$ > $$A_j$$ 則稱 ($$A_i$$, $$A_j$$) 為逆序數對  
+舉例 序列 1 2 3 5 4中 (5, 4)為逆序數對  
+
+## 暴力解
+$$O(n^2)$$ 直接枚舉所有 $$i < j$$ 找有幾個 $$A_i$$ > $$A_j$$  
+
+但這樣時間複雜度不太好 我們需要更快的方法  
+
+## merge sort 
+merge sort 介紹之後可能(? 會補  
+可以發現當兩個已排序的陣列合併成新的時  
+ `3 4 7 8 9`  
+| 輪次 |  新陣列   | 左方舊陣列  | 右方舊陣列 |
+|  ----  |  ----  | ----  | ----  |
+| 0 | ` ` | `1 2 5 6 10` | `3 4 7 8 9` |
+| 1 | `1` | `2 5 6 10` | `3 4 7 8 9` |
+| 2 | `1 2` | `5 6 10` | `3 4 7 8 9` |
+| 3 | `1 2 3` | `5 6 10` | `4 7 8 9` |
+| 4 | `1 2 3 4` | `5 6 10` | `7 8 9` |
+| 5 | `1 2 3 4 5` | `6 10` | `7 8 9` |
+......  
+
+
+假設原陣列為`1 2 5 6 10 3 4 7 8 9`  
+可以發現第 3 4 輪是取右側陣列的`3 4`
+而左側陣列剩餘的`5 6 10`會與其形成逆序數對  
+(可以理解成`3 4` 在 第 3 4 輪時 ***跑到*** 左側陣列前面了)
+
+因此只要在 merge sort 時紀錄 右側陣列 的那些元素超車了誰就能求得逆序數對
+
+### 程式碼實作 (C++)
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+using ull = unsigned long long;
+using ll = long long;
+
+ull merge_sort(vector<ull> &arr, ull begin, ull end, vector<ull> &tmp)
+{
+    auto mid = (begin+end)/2;
+    ull ret = 0;
+    if(mid-begin > 1)ret += merge_sort(arr, begin, mid, tmp);
+    if(end-mid > 1)ret += merge_sort(arr, mid, end, tmp);
+    
+    for(auto i = begin; i < end; i++)tmp[i] = arr[i];
+
+    ull pos = begin, l = begin, r = mid;
+    ull left = 0;
+    while(pos != end)
+    {
+        if((tmp[l] <= tmp[r] || r == end) && l != mid)
+        {
+            arr[pos] = tmp[l];
+            pos++;
+            ret += left;
+            l++;
+        }else
+        {
+            arr[pos] = tmp[r];
+            pos++;
+            left++;
+            r++;
+        }
+    }
+    return ret;
+}
+int main()
+{
+    cin.tie(0)->sync_with_stdio(false);
+
+    ull n;
+    cin >> n;
+    vector<ull> a(n), tmp(n+1);
+    for(auto &i : a)cin >> i;
+
+    cout << merge_sort(a, 0, n, tmp);
+}
+```
+
+
+# 後記
+晚了 之後補東西 講得沒很好
