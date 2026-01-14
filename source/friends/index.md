@@ -23,6 +23,7 @@ links:
     image: https://avatars.githubusercontent.com/u/130988476?s=96&v=4
     url: https://twcat0503.org
     desc: 全能大電神⚡️
+    color: '#e6cfe6'
 placeholder: 還沒想好說些什麼
 tip: 友鏈加載中～如失敗請刷新重試～
 ---
